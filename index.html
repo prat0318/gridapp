@@ -1,0 +1,43 @@
+<html>
+<head></head>
+<body>
+   <button type="button" onclick="flip()">Flip!</button>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+
+// Dirty regex to get the query params
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function createGrid() {
+    var rows = getParameterByName('height') || 5; //here's your number of rows and columns
+    var cols = getParameterByName('width') || 5;
+    var table = $('<table><tbody>');
+    for(var r = 0; r < rows; r++)
+    {
+        var tr = $('<tr>');
+        for (var c = 0; c < cols; c++) {
+            var value = Math.random() < 0.5 ? 'X' : 'O';
+            $('<td class="grid">'+value+'</td>').appendTo(tr); //fill in your cells with something meaningful here
+        }
+        tr.appendTo(table);
+    }
+
+    table.appendTo('body'); //Add your resulting table to the DOM, I'm using the body tag for example
+}
+
+function flip() {
+    cells = $('.grid')
+    for(var i=0; i < cells.length; i++)
+        cells[i].innerHTML = cells[i].innerHTML == 'X' ? 'O' : 'X'
+}
+
+createGrid()
+</script>
+</html>
+
